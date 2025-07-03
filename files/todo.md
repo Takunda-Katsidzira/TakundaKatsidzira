@@ -1,0 +1,39 @@
+TODAY
+
+# ONE DAY AT A TIME
+# 1.01^365 = 37.78
+
+# PERSONAL
+
+* text slack
+* send transcript and apply stillman
+
+# WORK
+
+## DATA STRUCTURES LIBRARY
+### STATIC ARRAY
+* STUDY
+
+## TICTACTOE
+* STUDY
+
+## DATABASE
+* STUDY
+
+## LOGIN UI
+* STUDY
+
+## SEARCH UI
+* STUDY
+
+## AUTHENTICATION
+* STUDY
+
+## SEARCH
+* STUDY
+
+## NEETCODE250
+* ARRAYS AND HASHING
+
+## SQL
+* SELECT
