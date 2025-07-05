@@ -81,4 +81,4 @@
 ⦁	If solution failed note unfamiliar concepts and shortcomings.
 ⦁	Look into background material.
 ⦁	Plan to revisit problem and attempt similar easier problems.
-⦁	Look up solutions and study them
+⦁	Look up solutions and study them.
