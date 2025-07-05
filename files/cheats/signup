@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Luminous Sign Up Form</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      background: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .signup-box {
+      background: white;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 0 30px rgba(128, 0, 255, 0.3),
+                  0 0 60px rgba(0, 128, 255, 0.2);
+      position: relative;
+      width: 380px;
+    }
+
+    .signup-box::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+      z-index: -1;
+      background: linear-gradient(135deg, #7f00ff, #00bfff);
+      border-radius: 20px;
+      filter: blur(20px);
+      opacity: 0.6;
+      animation: glow 4s infinite alternate;
+    }
+
+    @keyframes glow {
+      0% {
+        filter: blur(15px);
+        opacity: 0.5;
+      }
+      100% {
+        filter: blur(30px);
+        opacity: 0.8;
+      }
+    }
+
+    .signup-box h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #7f00ff;
+    }
+
+    .input-box {
+      margin-bottom: 15px;
+    }
+
+    .input-box label {
+      display: block;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    .input-box input {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      transition: border 0.3s, box-shadow 0.3s;
+    }
+
+    .input-box input:focus {
+      border-color: #7f00ff;
+      box-shadow: 0 0 10px rgba(127, 0, 255, 0.5);
+      outline: none;
+    }
+
+    .signup-btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(to right, #7f00ff, #00bfff);
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(127, 0, 255, 0.6);
+      transition: box-shadow 0.3s, transform 0.2s;
+      margin-top: 10px;
+    }
+
+    .signup-btn:hover {
+      box-shadow: 0 0 20px rgba(0, 191, 255, 0.7);
+      transform: scale(1.03);
+    }
+
+    .login-link {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .login-link a {
+      color: #7f00ff;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s, text-shadow 0.3s;
+    }
+
+    .login-link a:hover {
+      color: #00bfff;
+      text-shadow: 0 0 5px rgba(0, 191, 255, 0.6);
+    }
+  </style>
+</head>
+<body>
+  <div class="signup-box">
+    <h2>Sign Up</h2>
+    <div class="input-box">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" placeholder="Enter your full name">
+    </div>
+    <div class="input-box">
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="Enter your email">
+    </div>
+    <div class="input-box">
+      <label for="username">Username</label>
+      <input type="text" id="username" placeholder="Choose a username">
+    </div>
+    <div class="input-box">
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Create a password">
+    </div>
+    <div class="input-box">
+      <label for="confirm">Confirm Password</label>
+      <input type="password" id="confirm" placeholder="Confirm your password">
+    </div>
+    <button class="signup-btn">Sign Up</button>
+    <div class="login-link">
+      Already have an account?
+      <a href="#">Login</a>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Home - Music Discovery</title>
+<style>
+  body {
+    margin: 0; padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: white;
+    color: #333;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .search-container {
+    max-width: 600px;
+    margin: 0 auto 40px auto;
+    text-align: center;
+  }
+  input[type="search"] {
+    width: 100%;
+    max-width: 600px;
+    font-size: 18px;
+    padding: 12px 20px;
+    border: 2px solid #7f00ff;
+    border-radius: 30px;
+    outline: none;
+    transition: box-shadow 0.3s ease;
+  }
+  input[type="search"]:focus {
+    box-shadow:
+      0 0 8px 2px #7f00ff,
+      0 0 20px 5px #00bfff;
+    border-color: #00bfff;
+  }
+  .tiles-grid {
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    max-width: 960px;
+    margin: 0 auto;
+    overflow-y: auto;
+  }
+  .tile {
+    background: white;
+    border-radius: 20px;
+    padding: 30px 25px;
+    box-shadow:
+      0 0 15px rgba(127, 0, 255, 0.3),
+      0 0 30px rgba(0, 191, 255, 0.2);
+    cursor: default;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    color: #7f00ff;
+    font-weight: 700;
+    font-size: 20px;
+    user-select: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .tile:hover {
+    transform: translateY(-8px);
+    box-shadow:
+      0 0 25px rgba(127, 0, 255, 0.6),
+      0 0 60px rgba(0, 191, 255, 0.5);
+  }
+  .genre-label {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    font-weight: 600;
+  }
+  .song-title {
+    font-size: 22px;
+    margin-bottom: 6px;
+  }
+  .artist-name {
+    font-size: 16px;
+    color: #004080;
+    font-weight: 600;
+  }
+  .album-name {
+    font-size: 14px;
+    color: #666;
+    margin-top: 6px;
+    font-weight: 500;
+  }
+</style>
+</head>
+<body>
+  <div class="search-container">
+    <input id="searchInput" type="search" placeholder="Search..." aria-label="Search songs or artists" />
+  </div>
+  <div id="tilesGrid" class="tiles-grid" role="list"></div>
+
+<script>
+  const musicDB = {
+    Jazz: [
+      { title: "So What", artist: "Miles Davis", album: "Kind of Blue" },
+      { title: "Take Five", artist: "Dave Brubeck", album: "Time Out" },
+      { title: "My Favorite Things", artist: "John Coltrane", album: "My Favorite Things" },
+      { title: "Blue in Green", artist: "Bill Evans", album: "Kind of Blue" },
+      { title: "All Blues", artist: "Miles Davis", album: "Kind of Blue" },
+    ],
+    Rock: [
+      { title: "Bohemian Rhapsody", artist: "Queen", album: "A Night at the Opera" },
+      { title: "Stairway to Heaven", artist: "Led Zeppelin", album: "Led Zeppelin IV" },
+      { title: "Hotel California", artist: "Eagles", album: "Hotel California" },
+      { title: "Sweet Child o' Mine", artist: "Guns N' Roses", album: "Appetite for Destruction" },
+      { title: "Back in Black", artist: "AC/DC", album: "Back in Black" },
+    ],
+    Pop: [
+      { title: "Billie Jean", artist: "Michael Jackson", album: "Thriller" },
+      { title: "Like a Prayer", artist: "Madonna", album: "Like a Prayer" },
+      { title: "Shape of You", artist: "Ed Sheeran", album: "÷ (Divide)" },
+      { title: "Blinding Lights", artist: "The Weeknd", album: "After Hours" },
+      { title: "Uptown Funk", artist: "Mark Ronson ft. Bruno Mars", album: "Uptown Special" },
+    ],
+    Classical: [
+      { title: "Moonlight Sonata", artist: "Ludwig van Beethoven", album: "Piano Sonatas" },
+      { title: "Clair de Lune", artist: "Claude Debussy", album: "Suite bergamasque" },
+      { title: "The Four Seasons", artist: "Antonio Vivaldi", album: "The Four Seasons" },
+      { title: "Swan Lake", artist: "Pyotr Ilyich Tchaikovsky", album: "Swan Lake" },
+      { title: "Requiem", artist: "Wolfgang Amadeus Mozart", album: "Requiem" },
+    ],
+    HipHop: [
+      { title: "Lose Yourself", artist: "Eminem", album: "8 Mile" },
+      { title: "Juicy", artist: "The Notorious B.I.G.", album: "Ready to Die" },
+      { title: "HUMBLE.", artist: "Kendrick Lamar", album: "DAMN." },
+      { title: "Sicko Mode", artist: "Travis Scott", album: "Astroworld" },
+      { title: "God's Plan", artist: "Drake", album: "Scary Hours" },
+    ],
+    Electronic: [
+      { title: "One More Time", artist: "Daft Punk", album: "Discovery" },
+      { title: "Animals", artist: "Martin Garrix", album: "Animals" },
+      { title: "Levels", artist: "Avicii", album: "Levels" },
+      { title: "Titanium", artist: "David Guetta", album: "Nothing but the Beat" },
+      { title: "Strobe", artist: "Deadmau5", album: "For Lack of a Better Name" },
+    ],
+  };
+
+  function getRandom(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+
+  function pickUniqueGenres(db, n) {
+    const genres = Object.keys(db);
+    const picked = new Set();
+    while (picked.size < n && picked.size < genres.length) {
+      picked.add(getRandom(genres));
+    }
+    return Array.from(picked);
+  }
+
+  function calculateTilesNeeded() {
+    const tileMinWidth = 280;
+    const tileGap = 30;
+    const searchHeight = document.querySelector('.search-container').offsetHeight;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight - searchHeight - 40;
+
+    const columns = Math.floor((vw + tileGap) / (tileMinWidth + tileGap));
+    const tileHeight = 130;
+    const rows = Math.ceil(vh / (tileHeight + tileGap));
+
+    return { columns, rows, total: columns * rows };
+  }
+
+  function renderTiles() {
+    const tilesGrid = document.getElementById("tilesGrid");
+    tilesGrid.innerHTML = "";
+
+    const { columns, rows, total } = calculateTilesNeeded();
+
+    const maxGenres = Object.keys(musicDB).length;
+    let genreCount = Math.min(maxGenres, Math.ceil(total / 3));
+
+    const genres = pickUniqueGenres(musicDB, genreCount);
+
+    let allTiles = [];
+    let genreIndex = 0;
+    let songIndices = {};
+
+    for(let i=0; i<total; i++) {
+      const genre = genres[genreIndex];
+      const songs = musicDB[genre];
+
+      if(!songIndices[genre]) songIndices[genre] = 0;
+
+      const song = songs[songIndices[genre] % songs.length];
+
+      allTiles.push({ genre, title: song.title, artist: song.artist, album: song.album });
+
+      songIndices[genre]++;
+      genreIndex = (genreIndex + 1) % genres.length;
+    }
+
+    tilesGrid.style.gridTemplateColumns = `repeat(${columns}, minmax(280px, 1fr))`;
+
+    allTiles.forEach(({ genre, title, artist, album }) => {
+      const tile = document.createElement("div");
+      tile.classList.add("tile");
+      tile.dataset.title = title.toLowerCase();
+      tile.dataset.artist = artist.toLowerCase();
+      tile.dataset.genre = genre.toLowerCase();
+      tile.dataset.album = album.toLowerCase();
+      tile.innerHTML = `
+        <div class="genre-label">${genre}</div>
+        <div class="song-title">${title}</div>
+        <div class="artist-name">${artist}</div>
+        <div class="album-name">${album}</div>
+      `;
+      tilesGrid.appendChild(tile);
+    });
+  }
+
+  function filterTiles(query) {
+    const tiles = document.querySelectorAll(".tile");
+    const q = query.trim().toLowerCase();
+
+    tiles.forEach(tile => {
+      const title = tile.dataset.title;
+      const artist = tile.dataset.artist;
+      const genre = tile.dataset.genre;
+      const album = tile.dataset.album;
+
+      const match = title.includes(q) || artist.includes(q) || genre.includes(q) || album.includes(q);
+      tile.style.display = match ? "flex" : "none";
+    });
+  }
+
+  renderTiles();
+
+  window.addEventListener("resize", () => {
+    renderTiles();
+    filterTiles(document.getElementById("searchInput").value);
+  });
+
+  document.getElementById("searchInput").addEventListener("input", e => {
+    filterTiles(e.target.value);
+  });
+</script>
+</body>
+</html>
