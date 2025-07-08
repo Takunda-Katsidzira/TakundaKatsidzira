@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="Metallic Glass Template" />
+    <title>Selene</title>
+
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: linear-gradient(135deg, #111111, #1b1b1b, #0e0e0e);
+            font-family: 'Cinzel', serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+        }
+
+        main {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .glass-card {
+            position: relative;
+            padding-top: 20px;
+            width: 95vw;
+            max-width: 1000px;
+            height: 85vh;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 24px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            box-shadow:
+                inset 0 0 10px rgba(255, 255, 255, 0.04),
+                0 12px 40px rgba(0, 0, 0, 0.7);
+            overflow: hidden;
+            transition:
+                transform 0.4s ease,
+                box-shadow 0.4s ease,
+                border-color 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            cursor: pointer;
+        }
+
+        .glass-card::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(120deg,
+                    rgba(255, 255, 255, 0.05),
+                    rgba(255, 255, 255, 0.2),
+                    rgba(255, 255, 255, 0.05));
+            animation: shimmer 6s infinite linear;
+            transform: rotate(25deg);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: rotate(25deg) translateX(-100%);
+            }
+
+            100% {
+                transform: rotate(25deg) translateX(100%);
+            }
+        }
+
+        .glass-card:hover {
+            transform: scale(1.02);
+            border-color: rgba(255, 255, 255, 0.9);
+            box-shadow:
+                0 0 8px 2px rgba(255, 255, 255, 0.7);
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            font-family: 'Cinzel', serif;
+            user-select: none;
+        }
+
+        .card-content h1 {
+            font-weight: 800;
+            font-size: 5rem;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            font-family: 'Cinzel', serif;
+            text-shadow:
+                0 0 5px #b0b0b0,
+                0 0 10px #d0d0d0,
+                0 0 15px #e0e0e0;
+            user-select: none;
+        }
+
+        .card-content h3 {
+            font-weight: 200;
+            font-size: 1.2;
+            color: #ffffff;
+            max-width: 800px;
+            letter-spacing: 0.25em;
+            font-family: 'Cinzel', serif;
+            text-shadow:
+
+        }
+
+        .card-content h4 {
+            font-weight: 200;
+            font-size: 1.2em;
+            color: #ffffff;
+            max-width: 800px;
+            letter-spacing: 0.25em;
+            font-family: 'Cinzel', serif;
+            visibility: hidden;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .card-content:hover h4 {
+            visibility: visible;
+            opacity: 5;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 600px) {
+            .glass-card {
+                width: 95vw;
+                height: 70vh;
+                padding: 30px;
+            }
+
+            .card-content h1 {
+                font-size: 2em;
+            }
+
+            .card-content p {
+                font-size: 1em;
+            }
+        }
+
+        .auth-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            z-index: 3;
+        }
+
+        .auth-buttons {
+            position: relative;
+            display: flex;
+            gap: 10px;
+            padding: 8px 12px;
+        }
+
+        .auth-buttons button {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 24px;
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            font-weight: 800;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: 0.4s ease all;
+        }
+
+        .auth-buttons button:hover {
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 0 6px rgba(255, 255, 255, 1);
+            color: #000;
+        }
+
+        .auth-buttons .form-container {
+            position: absolute;
+            top: 60px;
+            right: 0;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            padding: 20px;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            min-width: 220px;
+            z-index: 100;
+        }
+
+        .signup-container,
+        .login-container {
+            position: relative;
+        }
+
+        .signup-container:hover .form-container,
+        .login-container:hover .form-container {
+            display: flex;
+        }
+
+        .form-container input {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 0.9rem;
+        }
+
+        .form-container input::placeholder {
+            color: #ffffff;
+        }
+
+        .form-container button.submit-btn {
+            margin-top: 10px;
+            background: #fff;
+            color: #000;
+            font-weight: bold;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main>
+
+        <section class="glass-card">
+
+            <article>
+                <article-header>
+                    <div class="auth-container">
+                        <div class="auth-buttons">
+                            <div class="signup-container">
+                                <button id="signup">Sign Up</button>
+                                <div class="form-container">
+                                    <input type="text" placeholder="Full Name" />
+                                    <input type="email" placeholder="Email" />
+                                    <input type="text" placeholder="Username" />
+                                    <input type="password" placeholder="Password" />
+                                    <input type="password" placeholder="Confirm Password" />
+                                    <button class="submit-btn">Sign Up</button>
+                                </div>
+                            </div>
+
+                            <div class="login-container">
+                                <button id="login">Login</button>
+                                <div class="form-container">
+                                    <input type="text" placeholder="Username or email" />
+                                    <input type="password" placeholder="Password" />
+                                    <button class="submit-btn">Login</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article-header>
+            </article>
+
+            <article>
+                <div class="card-content">
+                    <h1>Selene</h1>
+                    <h3>Selēnē, lūcis domina, per noctem volat, silentium secum portat, et quis eam spectat, somnō aeternō capitur.</h3>
+                    <h4>Selene, mistress of light, flies through the night, she brings silence, and whoever sees her is seized by eternal sleep.</h4>
+                </div>
+            </article>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>
